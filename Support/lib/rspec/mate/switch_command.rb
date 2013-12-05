@@ -137,7 +137,8 @@ HELPER
           "/../../../../Snippets/#{snippet_name}"
         )
 
-        xml = File.open(snippet_file).read
+        # converting from binary property list to xml
+        xml = %x(plutil -convert xml1 -o - "#{snippet_file}")
 
         xml.match(/<key>content<\/key>\s*<string>([^<]*)<\/string>/m)[1]
       end
