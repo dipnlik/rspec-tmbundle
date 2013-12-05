@@ -120,9 +120,10 @@ HELPER
         end
       end
 
-      def class_from_path(path)
+      def class_from_path(path, pop_spec = false)
         underscored = path.split('/').last.split('.rb').first
         parts = underscored.split('_')
+        parts.pop if pop_spec
 
         parts.inject("") do |word, part|
           word << part.capitalize
@@ -144,10 +145,16 @@ HELPER
       end
 
       def spec(path)
+        # can't use #{snippet("Describe_type.tmSnippet")} as is anymore
+        # reason: snippet placeholders cannot be interpreted
+        # TextMate 2 doesn't have the insert as snippet applescript option
+        output = snippet("Describe_type.tmSnippet")
+          .sub('${1:Type}', class_from_path(path, true))
+          .sub('$0', 'pending "add some examples to (or delete) #{__FILE__}"')
         content = <<-SPEC
 require 'spec_helper'
 
-#{snippet("Describe_type.tmSnippet")}
+#{output}
 SPEC
       end
 

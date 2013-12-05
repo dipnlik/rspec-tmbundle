@@ -43,12 +43,12 @@ module RSpec
           "/a/full/path/lib/snoopy/mooky.rb".should be_a("file")
         end
 
-        it "create a spec for spec files" do
+        it "create a plain text spec for spec files" do
           regular_spec = <<-SPEC
 require 'spec_helper'
 
-describe ${1:Type} do
-  $0
+describe Zap do
+  pending "add some examples to (or delete) \#{__FILE__}"
 end
 SPEC
           SwitchCommand.new.content_for('spec', "spec/foo/zap_spec.rb").should == regular_spec
