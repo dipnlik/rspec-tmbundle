@@ -1,3 +1,5 @@
+require 'fileutils'
+
 module RSpec
   module Mate
     # This is based on Ruy Asan's initial code:
@@ -183,8 +185,8 @@ SPEC
       end
 
       def write_and_open(path, content)
-        %x(mkdir -p "#{File.dirname(path)}"; echo '#{content}' > "#{path}")
-        return true
+        FileUtils.mkdir_p File.dirname(path)
+        File.open(path, 'w') { |f| f.puts content }
       end
     end
   end
