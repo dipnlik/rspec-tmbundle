@@ -175,14 +175,17 @@ SPEC
       end
 
       def write_and_open(path, content)
+        # softcoding app name
+        app_name = %x(basename "$TM_APP_PATH")
+
         `mkdir -p "#{File.dirname(path)}"`
         `touch "#{path}"`
         `"$TM_SUPPORT_PATH/bin/mate" "#{path}"`
-        `osascript &>/dev/null -e 'tell app "SystemUIServer" to activate' -e 'tell app "TextMate" to activate'`
+        `osascript &>/dev/null -e 'tell app "SystemUIServer" to activate' -e 'tell app "#{app_name}" to activate'`
 
         escaped_content = content.gsub("\n","\\n").gsub('$','\\$').gsub('"','\\\\\\\\\\\\"')
 
-        `osascript &>/dev/null -e "tell app \\"TextMate\\" to insert \\"#{escaped_content}\\" as snippet true"`
+        `osascript &>/dev/null -e "tell app \\"#{app_name}\\" to insert \\"#{escaped_content}\\" as snippet true"`
       end
     end
   end
