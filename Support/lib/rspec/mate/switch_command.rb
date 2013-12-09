@@ -187,7 +187,13 @@ SPEC
       def write_and_open(path, content)
         FileUtils.mkdir_p File.dirname(path)
         File.open(path, 'w') { |f| f.puts content }
-        puts "Created #{path}.\nRun the command again to switch to it."
+        app_name = ENV['TM_APP_PATH']
+        app_version = %x(osascript -e 'set _v to version of application "#{app_name}"' -e 'return _v')
+        if app_version =~ /^1/
+          %x(osascript &>/dev/null -e 'tell app "SystemUIServer" to activate' -e 'tell app "#{app_name}" to activate' -e 'tell app "#{app_name}" to open "#{path}"')
+        else
+          puts "Created #{path}.\nRun the command again to switch to it."
+        end
       end
     end
   end
