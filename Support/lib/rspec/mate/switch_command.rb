@@ -187,6 +187,7 @@ SPEC
       def write_and_open(path, content)
         FileUtils.mkdir_p File.dirname(path)
         File.open(path, 'w') { |f| f.puts content }
+        puts "Created #{path}.\nRun the command again to switch to it."
       end
     end
   end
