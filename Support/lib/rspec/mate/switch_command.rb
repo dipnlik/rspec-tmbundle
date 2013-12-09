@@ -190,10 +190,9 @@ SPEC
         app_name = ENV['TM_APP_PATH']
         app_version = %x(osascript -e 'set _v to version of application "#{app_name}"' -e 'return _v')
         if app_version =~ /^1/
-          %x(osascript &>/dev/null -e 'tell app "SystemUIServer" to activate' -e 'tell app "#{app_name}" to activate' -e 'tell app "#{app_name}" to open "#{path}"')
-        else
-          puts "Created #{path}.\nRun the command again to switch to it."
+          %x(osascript &>/dev/null -e 'tell app "SystemUIServer" to activate' -e 'tell app "#{app_name}" to activate')
         end
+        puts "Created #{path}.\nRun the command again to switch to it."
       end
     end
   end
